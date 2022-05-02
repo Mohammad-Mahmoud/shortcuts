@@ -1,0 +1,51 @@
+<SCRIPT type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></SCRIPT>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=false&sensor=false&key=AIzaSyC1y5bZPJv7dEB4EQZDukXO3IeCsUkkNFo"></script>
+<SCRIPT type="text/javascript">
+
+    if(navigator.geolocation) {
+        var fallback = setTimeout(function() { fail('10 seconds expired'); }, 10000);
+        var zipCode = '';
+        navigator.geolocation.getCurrentPosition(
+            function (pos) {
+                clearTimeout(fallback);
+                console.log('pos', pos);
+                var point = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                new google.maps.Geocoder().geocode({'latLng': point}, function (res, status) {
+                    if(status == google.maps.GeocoderStatus.OK && typeof res[0] !== 'undefined') {
+                        var zip = res[0].address_components;
+                        console.log(zip);
+                        for(i=0;i<zip.length;i++) {
+                            var component = res[0].address_components[i];
+                            switch(component.types[0]) {
+                                        case 'locality':
+                                            alert(component.long_name);
+                                            break;
+                                        case 'administrative_area_level_1':
+                                            storableLocation.state = component.short_name;
+                                            break;
+                                        case 'postal_code':
+                                            zipCode = component.long_name;
+                                            storableLocation.registered_country_iso_code = component.short_name;
+                                            break;
+                                    }
+                            
+                        }
+                         
+                    } else {
+                        fail('Failed to reverse');
+                    }
+                });
+            }, function(err) {
+                fail(err.message);
+            }
+        );
+    } else {
+        Alert('Geolocation unsupported!');
+    }
+    function fail(err) {
+        console.log('err', err);
+        $("._res").html('Error ' + err);
+    }
+
+</SCRIPT>
+<div class="_res">Nothing yet....</div>

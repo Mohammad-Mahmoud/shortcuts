@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+<body >
+
+<p>Click the button to get your coordinates.</p>
+
+<button >Try It</button>
+
+<input type="hidden" id="demo"></p>
+
+
+<script>
+var x = document.getElementById("demo");
+
+
+function getLocation() {
+  
+   navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+  
+}
+
+var geoSuccess = function(position) {
+    long = (position.coords.longitude) ;
+    lat = position.coords.latitude ;
+    //onPositionReady();
+};
+
+	
+var geoError = function(error) {
+    
+        // The user didn't accept the callout
+       alert('no');
+       
+ };
+
+var latitude, longitude;
+$(document).ready(function(){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(handle_geolocation_query,handle_errors);
+    } else {
+        alert('Device probably not ready.');
+    }
+});
+function handle_errors(error) {  
+    // error handling here
+}
+function handle_geolocation_query(position){  
+    latitude = (position.coords.latitude);
+    longitude = (position.coords.longitude); 
+    
+    
+}
+for(i=0;i<=ar.length;i++) {
+  document.write(ar[i]);
+}
+//onPositionReady();
+
+let myLong = geolocationCoordinatesInstance.longitude;
+          alert(myLong);
+</script>
+
+</body>
+</html>
